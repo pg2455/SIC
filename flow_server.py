@@ -121,7 +121,7 @@ def getAlerts():
 	alerts = []
 	temp_alert = getTempAlert()
 	global ALERT_ON
-	if temp_alert and ALERT_ON==0:
+	if ALERT_ON==0:
 		alerts.append(temp_alert)
 
 	return jsonify({'alerts':alerts})
@@ -180,11 +180,15 @@ def getTempAlert():
 		trend_str = "normal"
 
 	if series[-1] > THRESHOLD_TEMP_UP:
+		trend = "1"
 		alert = "High Temperature Alert. You might want to check on your baby. "
 	elif series[-1] < THRESHOLD_TEMP_DOWN:
+		trend = "1"
 		alert = "Low Temperature Alert. You might want to check on your baby. "
 	else:
 		alert = "normal"
+
+
 	
 	if trend == 0 and alert == 'normal':
 		return None
