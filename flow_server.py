@@ -73,8 +73,9 @@ def uvData():
 
 @app.route('/getAlerts')
 def getAlerts():
+
 	alerts =  [{ 'attribute':'temperature','alert': "High Temperature Alert. You might want to check on your baby."}, \
-	{'attribute':'light', 'alert': 'Too much light may prevent you from getting a good night’s sleep.' } } 
+	{'attribute':'light', 'alert': "Too much light may prevent you from getting a good night’s sleep." } } 
 	return  jsonify({'alerts': alerts})
 
 
