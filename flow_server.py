@@ -4,8 +4,10 @@ from flask import Flask, request, jsonify
 from datetime import datetime
 import time, numpy 
 
+from flask.ext.cors import CORS
+
 SERIES_LIMIT = 100
-THRESHOLD_TEMP_UP = 27
+THRESHOLD_TEMP_UP = 29
 THRESHOLD_TEMP_DOWN=25
 
 
@@ -50,6 +52,8 @@ TOKEN = '78kXtgCIHcg02ZCGJ9EGNLEZdJWTvxFh'
 TOKEN_SECRET = 'wwmnyh8ZBjgM6AKp0S16WHt4smk'
 
 app = Flask(__name__)
+CORS(app)
+
 
 @app.route('/getMS')
 def msData():
@@ -137,6 +141,7 @@ def getFake():
 @app.route('/actionStatus', methods=['POST'])
 def actionStatus():
 	action = request.get_json()[u'action']
+	print action
 	global ALERT_ON
 	if action == 1:
 		ALERT_ON  = 1
