@@ -85,8 +85,6 @@ def uvData():
 
 @app.route('/getAlerts')
 def getAlerts():
-	action = request.get_json()['action']
-	if action
 	alerts = []
 	temp_alert = getTempAlert()
 	if temp_alert:
