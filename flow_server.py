@@ -85,17 +85,23 @@ def uvData():
 
 @app.route('/getAlerts')
 def getAlerts():
+	action = request.get_json()['action']
+	if action
 	alerts = []
 	temp_alert = getTempAlert()
 	if temp_alert:
 		alerts.append(temp_alert)
+	return jsonify({'alerts':alerts})
 
+@app.route('/getFakeAlert')
+def getFake():
 
-
-	alerts2 =  [{ 'attribute':'temperature','alert': "High Temperature Alert. You might want to check on your baby.", "Trend": "Continuously Increasing"}, \
-	{'attribute':'light', 'alert': "Too much light may prevent you from getting a good night's sleep" } ] 
+	alerts2 =  [{ 'attribute':'temperature','alert': "High Temperature Alert. You might want to check on your baby.", "Trend": "Continuously Increasing"}]
+	# {'attribute':'light', 'alert': "Too much light may prevent you from getting a good night's sleep" } ] 
 
 	return  jsonify({'alerts': alerts2})
+
+
 
 def getTempAlert():
 	x = api.drop(ms6).find(mem.elems.temperature_degcc_0.time > 0, limit=100)
