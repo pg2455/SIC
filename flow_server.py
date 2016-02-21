@@ -7,7 +7,7 @@ import time, numpy
 from flask.ext.cors import CORS
 
 SERIES_LIMIT = 100
-THRESHOLD_TEMP_UP = 29
+THRESHOLD_TEMP_UP = 28
 THRESHOLD_TEMP_DOWN=25
 
 
