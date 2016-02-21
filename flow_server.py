@@ -149,7 +149,7 @@ def actionStatus():
 		ALERT_ON = 0
 
 	print  ALERT_ON
-	return jsonify({'stauts':200})
+	return jsonify({'stauts':ALERT_ON})
 
 @app.route('/getYelpSuggestions')
 def getYelpSuggestions():
@@ -180,9 +180,9 @@ def getTempAlert():
 		trend_str = "normal"
 
 	if series[-1] > THRESHOLD_TEMP_UP:
-		alert = "High Temperature Alert"
+		alert = "High Temperature Alert. You might want to check on your baby. "
 	elif series[-1] < THRESHOLD_TEMP_DOWN:
-		alert = "Low Temperature Alert"
+		alert = "Low Temperature Alert. You might want to check on your baby. "
 	else:
 		alert = "normal"
 	
