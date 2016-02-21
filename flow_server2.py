@@ -116,10 +116,8 @@ def uvData():
 def getAlerts():
 	alerts = []
 	temp_alert = getTempAlert()
-	global ALERT_ON
-	if temp_alert and ALERT_ON==0:
+	if temp_alert:
 		alerts.append(temp_alert)
-
 	return jsonify({'alerts':alerts})
 
 @app.route('/getFakeAlert')
@@ -134,10 +132,12 @@ def getFake():
 
 	return  jsonify({'alerts': alerts2})
 
-@app.route('/actionStatus', methods=['POST'])
+@app.route('/actionStatus', method = ['POST'])
 def actionStatus():
 	action = request.get_json()[u'action']
+	print action
 	global ALERT_ON
+
 	if action == 1:
 		ALERT_ON  = 1
 	if action == 0:
@@ -174,9 +174,9 @@ def getTempAlert():
 	else:
 		trend_str = "normal"
 
-	if series[-1] > THRESHOLD_TEMP_UP:
+	if trend == 1 and series[-1] > THRESHOLD_TEMP_UP:
 		alert = "High Temperature Alert"
-	elif series[-1] < THRESHOLD_TEMP_DOWN:
+	elif trend == -1 and series[-1] < THRESHOLD_TEMP_DOWN:
 		alert = "Low Temperature Alert"
 	else:
 		alert = "normal"
@@ -199,16 +199,6 @@ def getTempData(i):
 	time = datetime.fromtimestamp(i['elems']['temperature_degcc_0']['value']['time']['value']).strftime('%Y-%m-%d %H:%M:%S')
 	return {'value':value, 'time':time}
 
-def getPowerStatus():
-	power_data = api.drop(pg6).find(limit=10000)
-	tmp_data = []
-	new = 0
-	for i in power_data:
-		value = i['elems']['electric_w_0']['value']['value']['value']
-		time = datetime.fromtimestamp(i['elems']['electric_w_0']['value']['time']['value']).strftime('%Y-%m-%d %H:%M:%S')		
-		if new != time:
-			tmp_data.append({'value':value, 'time':time})
-			new = time
 
 
 
