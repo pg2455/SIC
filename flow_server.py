@@ -192,10 +192,10 @@ def getTempAlert():
 		alert = "normal"
 
 
-	
+	print series
 	if trend == 0 and alert == 'normal':
 		return None
-	return {'attribute': 'Temperature', "alert": alert, "trend":trend_str}
+	return {'attribute': 'Temperature', "alert": alert, "trend":trend_str, 'value': series[-1]}
 
 def checkTrendAlert(series):
 	a,b = numpy.array(series), numpy.array([0] + series[1:])
