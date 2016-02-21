@@ -180,10 +180,10 @@ def getTempAlert():
 		trend_str = "normal"
 
 	if series[-1] > THRESHOLD_TEMP_UP:
-		trend = "1"
+		trend_str = "1"
 		alert = "High Temperature Alert. You might want to check on your baby. "
 	elif series[-1] < THRESHOLD_TEMP_DOWN:
-		trend = "1"
+		trend_str = "1"
 		alert = "Low Temperature Alert. You might want to check on your baby. "
 	else:
 		alert = "normal"
