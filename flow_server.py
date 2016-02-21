@@ -122,10 +122,10 @@ def getAlerts():
 	temp_alert = getTempAlert()
 	global ALERT_ON
 	if ALERT_ON==0:
-		if temp_data == None:
+		if temp_alert == None:
 			alerts = []
 		else:
-			alerts.append(temp_data)
+			alerts.append(temp_alert)
 
 	return jsonify({'alerts':alerts})
 
