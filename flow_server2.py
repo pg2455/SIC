@@ -122,18 +122,25 @@ def getAlerts():
 
 @app.route('/getFakeAlert')
 def getFake():
+	global ALERT_ON
 	if ALERT_ON == 0:
 		alerts2 =  [{ 'attribute':'temperature','alert': "High Temperature Alert. You might want to check on your baby.", "Trend": "Continuously Increasing"}]
 	else: 
 		alerts2 = []
 
+	print ALERT_ON
+
 	return  jsonify({'alerts': alerts2})
 
 @app.route('/actionStatus')
 def actionStatus():
-	action = request.get_json()['action']
+	action = request.get_json()[u'action']
+	print action
+	global ALERT_ON
 	if action == 1:
 		ALERT_ON  = 1
+
+	print  ALERT_ON
 	return jsonify({'stauts':200})
 
 @app.route('/getYelpSuggestions')
