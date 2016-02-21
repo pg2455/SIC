@@ -8,6 +8,8 @@ SERIES_LIMIT = 100
 THRESHOLD_TEMP_UP = 27
 THRESHOLD_TEMP_DOWN=25
 
+
+# Flowthings
 token = 'l2VuxNAeUuNnQcncNSL8vUjckYcH7Kyu'
 account = 'prateek91'
 flow_path = '/stamford2016/hack-data/by-location/sic/wad/ms6'
@@ -19,6 +21,33 @@ ps6 = 'f56c4c82768056d7a7d420405'
 
 creds = Token(account, token)
 api  = API(creds)
+
+ALERT_ON = 0
+
+# yelp
+import argparse
+import json
+import pprint
+import sys
+import urllib
+import urllib2
+
+import oauth2
+
+from yelp import search
+
+
+API_HOST = 'api.yelp.com'
+DEFAULT_TERM = 'dinner'
+DEFAULT_LOCATION = 'San Francisco, CA'
+SEARCH_LIMIT = 3
+SEARCH_PATH = '/v2/search/'
+BUSINESS_PATH = '/v2/business/'
+
+CONSUMER_KEY = '4TR4fqGYHAqNwtm53qmDfA'
+CONSUMER_SECRET = 't9fDu1LhppKfXbyI4FQQjctR6q4'
+TOKEN = '78kXtgCIHcg02ZCGJ9EGNLEZdJWTvxFh'
+TOKEN_SECRET = 'wwmnyh8ZBjgM6AKp0S16WHt4smk'
 
 app = Flask(__name__)
 
@@ -93,12 +122,34 @@ def getAlerts():
 
 @app.route('/getFakeAlert')
 def getFake():
+	global ALERT_ON
+	if ALERT_ON == 0:
+		alerts2 =  [{ 'attribute':'temperature','alert': "High Temperature Alert. You might want to check on your baby.", "Trend": "Continuously Increasing"}]
+	else: 
+		alerts2 = []
 
-	alerts2 =  [{ 'attribute':'temperature','alert': "High Temperature Alert. You might want to check on your baby.", "Trend": "Continuously Increasing"}]
-	# {'attribute':'light', 'alert': "Too much light may prevent you from getting a good night's sleep" } ] 
+	print ALERT_ON
 
 	return  jsonify({'alerts': alerts2})
 
+@app.route('/actionStatus')
+def actionStatus():
+	action = request.get_json()[u'action']
+	print action
+	global ALERT_ON
+	if action == 1:
+		ALERT_ON  = 1
+
+	print  ALERT_ON
+	return jsonify({'stauts':200})
+
+@app.route('/getYelpSuggestions')
+def getYelpSuggestions():
+	params = request.get_json()
+	term, location = params['term'], params['location']
+	
+	r = search(term, location)
+	return jsonify(r)
 
 
 def getTempAlert():
@@ -144,6 +195,7 @@ def getTempData(i):
 	value = i['elems']['temperature_degcc_0']['value']['value']['value']
 	time = datetime.fromtimestamp(i['elems']['temperature_degcc_0']['value']['time']['value']).strftime('%Y-%m-%d %H:%M:%S')
 	return {'value':value, 'time':time}
+
 
 
 
